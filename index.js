@@ -10,7 +10,7 @@ const app = Vue.createApp({
     },
     methods: {
         increaseCount() {
-            //referência o 'count' do template
+            //referência o 'count' do data
             this.count++ 
         }
     }
