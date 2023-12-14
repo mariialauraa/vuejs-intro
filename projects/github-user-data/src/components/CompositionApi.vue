@@ -12,7 +12,10 @@ const state = reactive({
   repos: [] //repositório  
 })
 
-async function fetchGithubUser() {
+async function fetchGithubUser(evt) {
+  //'evt' cria um formulário e o 'preventDefault' é usado para não mudar de página
+  evt.preventDefault()
+
   const resposta = await fetch(`https://api.github.com/users/${searchInput.value}`)
   const { login, name, company, bio, avatar_url } = await resposta.json()
 
@@ -37,16 +40,19 @@ async function fetchUserRepositories() {
 const reposCountMessage = computed(() => {
   return state.repos.length > 0
     ? `${state.name} possui ${state.repos.length} repositórios públicos`
-    : `${state.name} não possui nenhum repositório público`
+    : `${state.name} não possui repositórios públicos`
 
 })
-
 </script>
 
 <template>
   <h2>GitHub User Data</h2>
-  <input type="text" v-model="searchInput">
-  <button v-on:click="fetchGithubUser">Carregar Usuário</button>
+  
+  <!--criar um formulário-->
+  <form @submit="fetchGithubUser">
+    <input type="text" v-model.lazy="searchInput">
+    <button type="submit">Carregar Usuário</button>
+  </form>
   
   <div v-if="state.login !== ''">
     <img v-bind:src="state.avatar_url">
@@ -58,8 +64,7 @@ const reposCountMessage = computed(() => {
 
   <section v-if="state.repos.length >= 0">
     <!--uma contagem de repositório-->
-    <h2>{{ reposCountMessage }}</h2>
-    
+    <h2>{{ reposCountMessage }}</h2>    
     <article v-for="repo of state.repos">
       <h3>{{ repo.full_name }}</h3>
       <p>{{ repo.description }}</p>
