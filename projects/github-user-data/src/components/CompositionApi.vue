@@ -1,5 +1,7 @@
 <script setup>
-import { reactive } from 'vue';
+import { reactive, ref, computed } from 'vue';
+
+const searchInput = ref('') //passa o valor inicial ('')
 
 const state = reactive({
   login: '',
@@ -7,12 +9,11 @@ const state = reactive({
   company: '',
   bio: '',
   avatar_url: '',
-  repos: [], //repositório
-  searchInput: ''
+  repos: [] //repositório  
 })
 
 async function fetchGithubUser() {
-  const resposta = await fetch(`https://api.github.com/users/${state.searchInput}`)
+  const resposta = await fetch(`https://api.github.com/users/${searchInput.value}`)
   const { login, name, company, bio, avatar_url } = await resposta.json()
 
   state.login = login
@@ -31,12 +32,22 @@ async function fetchUserRepositories() {
 
   state.repos = repos
 }
+
+//o 'computed' é chamado 1x e só vai ser chamado de novo se o 'state.repos.length' mudar
+const reposCountMessage = computed(() => {
+  return state.repos.length > 0
+    ? `${state.name} possui ${state.repos.length} repositórios públicos`
+    : `${state.name} não possui nenhum repositório público`
+
+})
+
 </script>
 
-<template>  
+<template>
   <h2>GitHub User Data</h2>
-  <input type="text" v-model="state.searchInput">
+  <input type="text" v-model="searchInput">
   <button v-on:click="fetchGithubUser">Carregar Usuário</button>
+  
   <div v-if="state.login !== ''">
     <img v-bind:src="state.avatar_url">
     <strong>@{{ state.login }}</strong>
@@ -45,7 +56,10 @@ async function fetchUserRepositories() {
     <span>{{ state.bio }}</span>
   </div>
 
-  <section v-if="state.repos.length > 0">
+  <section v-if="state.repos.length >= 0">
+    <!--uma contagem de repositório-->
+    <h2>{{ reposCountMessage }}</h2>
+    
     <article v-for="repo of state.repos">
       <h3>{{ repo.full_name }}</h3>
       <p>{{ repo.description }}</p>
@@ -64,7 +78,8 @@ img {
   height: 8rem;
 }
 
-h1, h2 {
+h1,
+h2 {
   color: #f64348;
   margin: 1rem auto .25rem;
 }
@@ -73,7 +88,7 @@ h3 {
   margin: 1rem auto .25rem;
 }
 
-span{
+span {
   display: block;
   margin: 1rem auto;
 }
