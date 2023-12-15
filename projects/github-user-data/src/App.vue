@@ -1,10 +1,16 @@
 <script setup>
 import CompositionApi from './components/CompositionApi.vue';
+import { ref } from 'vue';
+
+//Hooks onMounted, onUpdated e onUnmounted:
+const isOpen = ref(true)
 </script>
 
 <template>
+<!--Incluindo o onUnmounted-->
+  <input type="checkbox" v-model="isOpen"> {{ isOpen }}
 <!--Incluindo o componente-->
-  <CompositionApi />
+  <CompositionApi v-if="isOpen"/>
 </template>
 
 <style>

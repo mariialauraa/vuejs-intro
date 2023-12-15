@@ -1,5 +1,5 @@
 <script setup>
-import { reactive, ref, computed } from 'vue';
+import { reactive, ref, computed, onMounted, onUpdated, onUnmounted } from 'vue';
 
 const searchInput = ref('') //passa o valor inicial ('')
 
@@ -13,7 +13,7 @@ const state = reactive({
 })
 
 async function fetchGithubUser(evt) {
-  //'evt' cria um formulário e o 'preventDefault' é usado para não mudar de página
+  //'fetchGithubUser' é um formulário e o 'evt' é usado para não mudar de página
   evt.preventDefault()
 
   const resposta = await fetch(`https://api.github.com/users/${searchInput.value}`)
@@ -42,6 +42,18 @@ const reposCountMessage = computed(() => {
     ? `${state.name} possui ${state.repos.length} repositórios públicos`
     : `${state.name} não possui repositórios públicos`
 
+})
+
+onMounted(() => {
+  console.log("O componente foi montado.")
+})
+
+onUpdated(() => {
+  console.log("O componente foi atualizado.")
+})
+
+onUnmounted(() => {
+  console.log("O componete foi desmontado.")
 })
 </script>
 
