@@ -1,8 +1,9 @@
 <script setup>
 import { ref } from 'vue';
 
-const emit = defineEmits(['formSubmit'])
-const searchInput = ref('') //passa o valor inicial ('')
+const emit = defineEmits(['formSubmit', 'update:modelValue'])
+//passa o valor inicial ('')
+const searchInput = ref('') 
 
 function handleSubmit(evt) {
   evt.preventDefault()
@@ -11,10 +12,14 @@ function handleSubmit(evt) {
 }
 </script>
 
-<template>
+<template>  
   <!--cria um formulário-->
   <form @submit="handleSubmit">
-    <input type="text" v-model.lazy="searchInput">
+    <input 
+      type="text" 
+      v-model="searchInput"
+      @input="$emit('update:modelValue', $event.target.value)"
+    >
     <button type="submit">Carregar Usuário</button>
   </form>
 </template>
