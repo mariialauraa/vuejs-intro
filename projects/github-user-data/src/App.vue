@@ -1,5 +1,5 @@
 <script setup>
-import CompositionApi from './components/CompositionApi.vue';
+import Profile from './components/Profile.vue'
 import { ref } from 'vue';
 
 //Hooks onMounted, onUpdated e onUnmounted:
@@ -10,7 +10,7 @@ const isOpen = ref(true)
 <!--Incluindo o onUnmounted-->
   <input type="checkbox" v-model="isOpen"> {{ isOpen }}
 <!--Incluindo o componente-->
-  <CompositionApi v-if="isOpen"/>
+  <Profile v-if="isOpen"/>
 </template>
 
 <style>
@@ -20,5 +20,9 @@ const isOpen = ref(true)
   max-width: 40rem;
   margin: 0 auto;
   text-align: center;
+}
+
+a {
+  color: #f64348;
 }
 </style>
