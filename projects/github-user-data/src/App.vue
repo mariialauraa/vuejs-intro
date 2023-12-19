@@ -1,26 +1,15 @@
 <script setup>
-import Profile from './components/Profile.vue'
-import { ref } from 'vue';
-
-//Hooks onMounted, onUpdated e onUnmounted:
-const isOpen = ref(true)
 </script>
 
-<template>
-<!--Incluindo o onUnmounted-->
-  <input type="checkbox" v-model="isOpen"> {{ isOpen }}
+<template>  
+  <nav>
+    <!--navegar entre as rotas-->
+    <RouterLink to="/">Home</RouterLink>
+    <RouterLink to="/search">Search User</RouterLink>
+  </nav>
 
-  <!--Incluindo o componente-->
-  <Profile v-if="isOpen">
-    <!--slot-->
-    <h1>GitHub User Data</h1>
-
-    <template v-slot:footer>
-      <footer>
-        Desenvolvido por <a href="https://github.com/mariialauraa" target="_blank">Maria Laura</a>
-      </footer>      
-    </template>
-  </Profile>
+  <!--área de renderização das páginas, conteúdo das rotas-->
+  <RouterView></RouterView>
 </template>
 
 <style>
@@ -31,20 +20,31 @@ const isOpen = ref(true)
   margin: 0 auto;
   text-align: center;
 }
-
-h1,
-h2 {
+h1 {
   color: #f64348;
-  margin: 1rem auto .25rem;
+  margin: 1rem auto;
 }
-
 footer {
   height: 3rem;
   margin-top: 2rem;
   padding: 1rem 0;
 }
-
 a {
   color: #f64348;
+  font-weight: 600;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+a + a {
+  margin-left: 1rem;
+}
+a:hover {
+  cursor: pointer;
+  filter: brightness(0.9);
+}
+nav {
+  border-bottom: 1px solid #fff;
+  padding: 1rem 0;
+  margin-bottom: 1rem;
 }
 </style>
