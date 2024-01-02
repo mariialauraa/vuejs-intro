@@ -1,5 +1,9 @@
 <script setup>
-import { searchHistory } from '@/stores/searchHistory';
+//import { searchHistory } from '@/stores/searchHistory';
+import { useSearchHistoryStore } from '@/stores/useSearchHistoryStore';
+
+//cria uma variável para o 'searchHistory'
+const searchHistory = useSearchHistoryStore()
 </script>
 
 <template>

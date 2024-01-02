@@ -1,17 +1,18 @@
 <script setup>
 import { ref } from 'vue';
-import { searchHistory } from '../stores/searchHistory';
+//import { searchHistory } from '../stores/searchHistory';
+import { useSearchHistoryStore } from '@/stores/useSearchHistoryStore';
 
 const emit = defineEmits(['formSubmit', 'update:modelValue'])
 //passa o valor inicial vazio('')
 const searchInput = ref('') 
 
+//cria uma variável para o 'searchHistory'
+const searchHistory = useSearchHistoryStore()
+
 function handleSubmit(evt) {
-  evt.preventDefault()
-  
-  //colocando tudo que pesquisa no searchHistory
-  searchHistory.users.unshift(searchInput.value)
-  
+  evt.preventDefault() 
+  searchHistory.pushToHistory(searchInput.value) 
   emit('formSubmit', searchInput.value)  
 }
 
